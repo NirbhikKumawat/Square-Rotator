@@ -59,17 +59,10 @@ function ArrowButton({direction,clicked=null,disabled=false}) {
         </button>
     )
 }
-function Shuffle({clicked=null}) {
-    return (
-        <button className="shuffle-button" onClick={clicked}>
-            Shuffle
-        </button>
-    )
-}
-function Start({clicked=null}) {
-    return (
-        <button className="shuffle-button" onClick={clicked}>
-            Start
+function ActionButton({clicked=null,children,variant='primary',disabled=false}) {
+    return(
+        <button className={`action-button ${variant}`} onClick={clicked} disabled={disabled}>
+            {children}
         </button>
     )
 }
@@ -80,14 +73,6 @@ function Counter({count=0}){
         </div>
 
     )
-}
-function Reset({clicked=null}) {
-    return (
-        <button onClick={clicked}>Reset</button>
-    )
-}
-function ArrowGrid(){
-
 }
 function ImmutableSquareButtonsGrid() {
     const [squares, setSquares] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
@@ -209,9 +194,15 @@ function ImmutableSquareButtonsGrid() {
     }
     return (
         <>
-            <Shuffle clicked={shuffle} />
-            <Start clicked={start}/>
-            <Reset clicked={reset}/>
+            <ActionButton clicked={shuffle} disabled={game===1}>
+                Shuffle
+            </ActionButton>
+            <ActionButton clicked={start} variant="success" disabled={game===1||checker()}>
+                Start Game
+            </ActionButton>
+            <ActionButton clicked={reset} variant="secondary">
+                Reset Game
+            </ActionButton>
             <Counter count={counts} />
             <div className="arrows-grid">
                 <ArrowButton clicked={()=>rotateLeftUp(1)} direction="up"/>
