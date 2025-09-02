@@ -1,0 +1,45 @@
+.square-button {
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    border: 5px solid yellow;
+    cursor: default;
+    outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+}
+.arrow-button {
+    width: 100px;
+    height: 100px;
+    background-color: darkgreen;
+    border: 5px solid red;
+    cursor: default;
+    outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+}
+.square-button:hover {
+    border-width: 8px;
+    color: black;
+}
+.buttons-grid {
+    display: flex;
+    flex-wrap: wrap;
+    width: 500px;
+}
+.arrows-grid {
+    display: flex;
+    flex-wrap: wrap;
+    width: 300px;
+    margin-left: 100px;
+}
