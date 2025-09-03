@@ -71,13 +71,13 @@ function Counter({count=0}){
         <div className="counter">
             <h3>Moves: {count}</h3>
         </div>
-
     )
 }
 function ImmutableSquareButtonsGrid() {
     const [squares, setSquares] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
     const [game,setGame] = useState(0);
     const [counts, setCounts] = useState(0);
+    //const [isSolved, setIsSolved] = useState(true);
     function checker(){
         for (let i = 0; i < 9; i++) {
             if(squares[i]!==i+1){
@@ -86,11 +86,18 @@ function ImmutableSquareButtonsGrid() {
         }
         return true;
     }
+    function realCheck(){
+        if(checker){
+            setGame(2);
+            return true;
+        }
+        return false;
+    }
     function rotateLeftUp(i){
         if(game===2){
             return;
         }
-        const nextSquares=squares.slice();
+        const nextSquares=[...squares];
         let temp = nextSquares[i-1];
         nextSquares[i-1]=nextSquares[i+2];
         nextSquares[i+2]=nextSquares[i+5];
@@ -99,12 +106,13 @@ function ImmutableSquareButtonsGrid() {
         if(game===1){
             setCounts(counts+1);
         }
-    }function rotateLeftDown(i){
+    }
+    function rotateLeftDown(i){
         if(game===2){
             return;
         }
-        const nextSquares=squares.slice();
-        let temp = nextSquares[i-1];
+        const nextSquares=[...squares];
+        const temp = nextSquares[i-1];
         nextSquares[i-1]=nextSquares[i+5];
         nextSquares[i+5]=nextSquares[i+2];
         nextSquares[i+2]=temp;
@@ -117,7 +125,7 @@ function ImmutableSquareButtonsGrid() {
         if(game===2){
             return;
         }
-        const nextSquares=squares.slice();
+        const nextSquares=[...squares];
         let temp = nextSquares[i-1];
         nextSquares[i-1]=nextSquares[i];
         nextSquares[i]=nextSquares[i+1];
@@ -131,7 +139,7 @@ function ImmutableSquareButtonsGrid() {
         if(game===2){
             return;
         }
-        const nextSquares=squares.slice();
+        const nextSquares=[...squares];
         let temp = nextSquares[i-1];
         nextSquares[i-1]=nextSquares[i+1];
         nextSquares[i+1]=nextSquares[i];
@@ -142,15 +150,16 @@ function ImmutableSquareButtonsGrid() {
         }
     }
     function start(){
-        setGame(1);
+        setGame(()=>1);
+        setCounts(0);
     }
     function reset(){
-        setGame(0);
+        setGame(()=>0);
         setSquares([1,2,3,4,5,6,7,8,9]);
         setCounts(0);
     }
     function shuffle(){
-        if(game===1||game===2){
+        if(game===1){
             return;
         }
         const random=Math.floor(Math.random()*12);
@@ -190,20 +199,31 @@ function ImmutableSquareButtonsGrid() {
         else if(random===11){
             rotateUpRight(7);
         }
+        setGame(0);
 
     }
     return (
-        <>
-            <ActionButton clicked={shuffle} disabled={game===1}>
-                Shuffle
-            </ActionButton>
-            <ActionButton clicked={start} variant="success" disabled={game===1||checker()}>
-                Start Game
-            </ActionButton>
-            <ActionButton clicked={reset} variant="secondary">
-                Reset Game
-            </ActionButton>
-            <Counter count={counts} />
+        <div className="game-board">
+            <div className="game-controls">
+                <ActionButton clicked={shuffle} disabled={game===1}>
+                    Shuffle
+                </ActionButton>
+                <ActionButton clicked={start} variant="success" disabled={game===1}>
+                    Start Game
+                </ActionButton>
+                <ActionButton clicked={reset} variant="secondary">
+                    Reset Game
+                </ActionButton>
+                <ActionButton clicked={realCheck} variant="tertiary">
+                    Check
+                </ActionButton>
+                <Counter count={counts} />
+            </div>
+            {game===2 && (
+                <div className="win-message">
+                    <h2>Congratulations! You solved this game in {counts} moves</h2>
+                </div>
+            )}
             <div className="arrows-grid">
                 <ArrowButton clicked={()=>rotateLeftUp(1)} direction="up"/>
                 <ArrowButton clicked={()=>rotateLeftUp(2)} direction="up"/>
@@ -235,6 +255,6 @@ function ImmutableSquareButtonsGrid() {
                 <ArrowButton clicked={()=>rotateLeftDown(2)} direction="down"/>
                 <ArrowButton clicked={()=>rotateLeftDown(3)} direction="down"/>
             </div>
-        </>
+        </div>
     );
 }
