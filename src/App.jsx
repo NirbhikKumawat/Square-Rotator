@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import {useEffect, useState} from 'react'
 import reactLogo from './assets/react.svg'
 import './board.css'
 import './App.css'
@@ -78,8 +78,8 @@ function ImmutableSquareButtonsGrid() {
     const [game,setGame] = useState(0);
     const [counts, setCounts] = useState(0);
     //const [isSolved, setIsSolved] = useState(true);
-    function realCheck(){
-        function checker(){
+    useEffect(() => {
+        function realCheck(){
             for (let i = 0; i < 9; i++) {
                 if(squares[i]!==i+1){
                     return false;
@@ -87,12 +87,11 @@ function ImmutableSquareButtonsGrid() {
             }
             return true;
         }
-        if(checker()&&game===1){
+        if(game === 1&&realCheck()){
             setGame(2);
-            return true;
         }
-        return false;
-    }
+    },[squares,game]);
+
     function performRotation(currentSquares,type,position){
         const newSquares = [...currentSquares];
         switch(type){
@@ -122,6 +121,7 @@ function ImmutableSquareButtonsGrid() {
         setSquares(squares => {const nextSquares=performRotation(squares,'lu',i);
         if(game===1){
             setCounts(counts+1);
+
         }
         return nextSquares});
     }
@@ -164,7 +164,6 @@ function ImmutableSquareButtonsGrid() {
         if(game===1){
             return;
         }
-        setGame(1);
         const shuffleNumber=20;
         for(let i=0;i<shuffleNumber;i++){
             await new Promise(resolve=>setTimeout(resolve,100));
@@ -206,7 +205,7 @@ function ImmutableSquareButtonsGrid() {
                 rotateUpRight(7);
             }
         }
-
+        setGame(1);
     }
     return (
         <div className="game-board">
@@ -216,9 +215,6 @@ function ImmutableSquareButtonsGrid() {
                 </ActionButton>
                 <ActionButton clicked={reset} variant="secondary">
                     Reset Game
-                </ActionButton>
-                <ActionButton clicked={realCheck} variant="tertiary">
-                    Check
                 </ActionButton>
                 <Counter count={counts} />
             </div>
