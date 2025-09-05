@@ -34,7 +34,7 @@ function Creator(){
         <div className="credit">
             <h3>Made by Nirbhik Kumawat</h3>
             <a href="https://github.com/NirbhikKumawat" target="_blank">
-                <img src="/github.svg" alt="GitHub Logo" height="54px" width="84px" className="logo"/>
+                <img src="/github.svg" alt="GitHub Logo" height="54px" width="94px" className="logo"/>
             </a>
         </div>
     )
@@ -149,57 +149,57 @@ function ImmutableSquareButtonsGrid() {
             setCounts(counts+1);
         }
     }
-    function start(){
-        setGame(()=>1);
-        setCounts(0);
-    }
     function reset(){
         setGame(()=>0);
         setSquares([1,2,3,4,5,6,7,8,9]);
         setCounts(0);
     }
-    function shuffle(){
+    async function shuffle(){
         if(game===1){
             return;
         }
-        const random=Math.floor(Math.random()*12);
-        if(random===0){
-            rotateLeftUp(1);
+        setGame(1);
+        const shuffleNumber=15;
+        for(let i=0;i<shuffleNumber;i++){
+            await new Promise(resolve=>setTimeout(resolve,150));
+            const random=Math.floor(Math.random()*12);
+            if(random===0){
+                rotateLeftUp(1);
+            }
+            else if(random===1){
+                rotateLeftUp(2);
+            }
+            else if(random===2){
+                rotateLeftUp(3);
+            }
+            else if(random===3){
+                rotateLeftDown(1);
+            }
+            else if(random===4){
+                rotateLeftDown(2);
+            }
+            else if(random===5){
+                rotateLeftDown(3);
+            }
+            else if(random===6){
+                rotateUpLeft(1);
+            }
+            else if(random===7){
+                rotateUpLeft(4);
+            }
+            else if(random===8){
+                rotateUpLeft(7);
+            }
+            else if(random===9){
+                rotateUpRight(1);
+            }
+            else if(random===10){
+                rotateUpRight(4);
+            }
+            else if(random===11){
+                rotateUpRight(7);
+            }
         }
-        else if(random===1){
-            rotateLeftUp(2);
-        }
-        else if(random===2){
-            rotateLeftUp(3);
-        }
-        else if(random===3){
-            rotateLeftDown(1);
-        }
-        else if(random===4){
-            rotateLeftDown(2);
-        }
-        else if(random===5){
-            rotateLeftDown(3);
-        }
-        else if(random===6){
-            rotateUpLeft(1);
-        }
-        else if(random===7){
-            rotateUpLeft(4);
-        }
-        else if(random===8){
-            rotateUpLeft(7);
-        }
-        else if(random===9){
-            rotateUpRight(1);
-        }
-        else if(random===10){
-            rotateUpRight(4);
-        }
-        else if(random===11){
-            rotateUpRight(7);
-        }
-        setGame(0);
 
     }
     return (
@@ -207,9 +207,6 @@ function ImmutableSquareButtonsGrid() {
             <div className="game-controls">
                 <ActionButton clicked={shuffle} disabled={game===1}>
                     Shuffle
-                </ActionButton>
-                <ActionButton clicked={start} variant="success" disabled={game===1}>
-                    Start Game
                 </ActionButton>
                 <ActionButton clicked={reset} variant="secondary">
                     Reset Game
