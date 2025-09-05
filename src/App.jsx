@@ -77,7 +77,6 @@ function ImmutableSquareButtonsGrid() {
     const [squares, setSquares] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
     const [game,setGame] = useState(0);
     const [counts, setCounts] = useState(0);
-    //const [isSolved, setIsSolved] = useState(true);
     useEffect(() => {
         function realCheck(){
             for (let i = 0; i < 9; i++) {
@@ -222,11 +221,7 @@ function ImmutableSquareButtonsGrid() {
                 <div className="win-message">
                     <h2>Congratulations! You solved this game in {counts} moves</h2>
                 </div>
-            )/*:(
-                <div className="keep-trying">
-                    <h2>Keep Trying</h2>
-                </div>
-            )*/}
+            )}
             <div className="arrows-grid">
                 <ArrowButton clicked={()=>rotateLeftUp(1)} direction="up"/>
                 <ArrowButton clicked={()=>rotateLeftUp(2)} direction="up"/>
