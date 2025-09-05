@@ -93,61 +93,67 @@ function ImmutableSquareButtonsGrid() {
         }
         return false;
     }
+    function performRotation(currentSquares,type,position){
+        const newSquares = [...currentSquares];
+        switch(type){
+            case 'lu':
+                [newSquares[position-1], newSquares[position+2], newSquares[position+5]] =
+                    [newSquares[position+2], newSquares[position+5], newSquares[position-1]];
+                break;
+            case 'ld':
+                [newSquares[position-1], newSquares[position+5], newSquares[position+2]] =
+                    [newSquares[position+5], newSquares[position+2], newSquares[position-1]];
+                break;
+            case 'ul':
+                [newSquares[position-1], newSquares[position], newSquares[position+1]] =
+                    [newSquares[position], newSquares[position+1], newSquares[position-1]];
+                break;
+            case 'ur':
+                [newSquares[position-1], newSquares[position+1], newSquares[position]] =
+                    [newSquares[position+1], newSquares[position], newSquares[position-1]];
+                break;
+        }
+        return newSquares;
+    }
     function rotateLeftUp(i){
         if(game===2){
             return;
         }
-        const nextSquares=[...squares];
-        let temp = nextSquares[i-1];
-        nextSquares[i-1]=nextSquares[i+2];
-        nextSquares[i+2]=nextSquares[i+5];
-        nextSquares[i+5]=temp;
-        setSquares(nextSquares);
+        setSquares(squares => {const nextSquares=performRotation(squares,'lu',i);
         if(game===1){
             setCounts(counts+1);
         }
+        return nextSquares});
     }
     function rotateLeftDown(i){
         if(game===2){
             return;
         }
-        const nextSquares=[...squares];
-        const temp = nextSquares[i-1];
-        nextSquares[i-1]=nextSquares[i+5];
-        nextSquares[i+5]=nextSquares[i+2];
-        nextSquares[i+2]=temp;
-        setSquares(nextSquares);
+        setSquares(squares =>{const nextSquares=performRotation(squares,'ld',i);
         if(game===1){
             setCounts(counts+1);
         }
+        return nextSquares});
     }
     function rotateUpLeft(i){
         if(game===2){
             return;
         }
-        const nextSquares=[...squares];
-        let temp = nextSquares[i-1];
-        nextSquares[i-1]=nextSquares[i];
-        nextSquares[i]=nextSquares[i+1];
-        nextSquares[i+1]=temp;
-        setSquares(nextSquares);
+        setSquares(squares =>{const nextSquares=performRotation(squares,'ul',i);
         if(game===1){
             setCounts(counts+1);
         }
+        return nextSquares});
     }
     function rotateUpRight(i){
         if(game===2){
             return;
         }
-        const nextSquares=[...squares];
-        let temp = nextSquares[i-1];
-        nextSquares[i-1]=nextSquares[i+1];
-        nextSquares[i+1]=nextSquares[i];
-        nextSquares[i]=temp;
-        setSquares(nextSquares);
+        setSquares(squares => {const nextSquares=performRotation(squares,'ur',i);
         if(game===1){
             setCounts(counts+1);
         }
+        return nextSquares});
     }
     function reset(){
         setGame(()=>0);
@@ -159,9 +165,9 @@ function ImmutableSquareButtonsGrid() {
             return;
         }
         setGame(1);
-        const shuffleNumber=15;
+        const shuffleNumber=20;
         for(let i=0;i<shuffleNumber;i++){
-            await new Promise(resolve=>setTimeout(resolve,150));
+            await new Promise(resolve=>setTimeout(resolve,100));
             const random=Math.floor(Math.random()*12);
             if(random===0){
                 rotateLeftUp(1);
