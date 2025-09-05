@@ -78,16 +78,16 @@ function ImmutableSquareButtonsGrid() {
     const [game,setGame] = useState(0);
     const [counts, setCounts] = useState(0);
     //const [isSolved, setIsSolved] = useState(true);
-    function checker(){
-        for (let i = 0; i < 9; i++) {
-            if(squares[i]!==i+1){
-                return false;
-            }
-        }
-        return true;
-    }
     function realCheck(){
-        if(checker){
+        function checker(){
+            for (let i = 0; i < 9; i++) {
+                if(squares[i]!==i+1){
+                    return false;
+                }
+            }
+            return true;
+        }
+        if(checker()&&game===1){
             setGame(2);
             return true;
         }
@@ -223,7 +223,11 @@ function ImmutableSquareButtonsGrid() {
                 <div className="win-message">
                     <h2>Congratulations! You solved this game in {counts} moves</h2>
                 </div>
-            )}
+            )/*:(
+                <div className="keep-trying">
+                    <h2>Keep Trying</h2>
+                </div>
+            )*/}
             <div className="arrows-grid">
                 <ArrowButton clicked={()=>rotateLeftUp(1)} direction="up"/>
                 <ArrowButton clicked={()=>rotateLeftUp(2)} direction="up"/>
