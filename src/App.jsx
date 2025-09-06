@@ -1,12 +1,15 @@
-import {useEffect, useState} from 'react'
+import {useEffect,useRef, useState} from 'react'
 import reactLogo from './assets/react.svg'
+import viteLogo from './assets/vite.svg'
+import nodeLogo from './assets/node.svg'
+import { animate, createScope, createSpring, createDraggable } from 'animejs';
 import './board.css'
 import './App.css'
 
 export default function App(){
     return (
         <div className="app-container">
-            <div className="app-heade">
+            <div className="app-header">
                 <h1>Square Rotator 3X3 </h1>
             </div>
                 <main className="game-container">
@@ -25,6 +28,12 @@ function ReactCredit() {
             <h3>Made with</h3>
             <a href="https://react.dev/" target="_blank" rel="noopener noreferrer">
                 <img src={reactLogo} alt="React Logo" className="logo"/>
+            </a>
+            <a href="https://vite.dev" target="_blank" rel="noopener noreferrer">
+                <img src={viteLogo} alt="Vite Logo" className="logo"/>
+            </a>
+            <a href="https://nodejs.org" target="_blank" rel="noopener noreferrer">
+                <img src={nodeLogo} alt="Node Logo" className="logo"/>
             </a>
         </div>
     );
