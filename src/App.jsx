@@ -28,7 +28,6 @@ function ReactCredit() {
     useEffect(() => {
         scope.current = createScope({ root }).add(() => {
             const logos = root.current.querySelectorAll('.logo');
-
             logos.forEach((logo) => {
                 logo.addEventListener('mouseenter', () => {
                     animate(logo, {
@@ -40,7 +39,6 @@ function ReactCredit() {
                 });
             });
         });
-
         return () => scope.current.revert();
     }, []);
         return (
@@ -59,8 +57,26 @@ function ReactCredit() {
     );
 }
 function Creator(){
+    const root = useRef(null);
+    const scope = useRef(null);
+    useEffect(() => {
+        scope.current = createScope({ root }).add(() => {
+            const logos = root.current.querySelectorAll('.logo');
+            logos.forEach((logo) => {
+                logo.addEventListener('mouseenter', () => {
+                    animate(logo, {
+                        scale: [
+                            { to: 1.25, ease: 'inOut(3)', duration: 200 },
+                            { to: 1, ease: 'outOut(3)', duration: 200 },
+                        ],
+                    });
+                });
+            });
+        });
+        return () => scope.current.revert();
+    }, []);
     return (
-        <div className="credit">
+        <div className="credit" ref={root}>
             <h3>Made by Nirbhik Kumawat</h3>
             <a href="https://github.com/NirbhikKumawat" target="_blank">
                 <img src="/github.svg" alt="GitHub Logo" height="54px" width="94px" className="logo"/>
