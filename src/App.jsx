@@ -2,7 +2,7 @@ import {useEffect,useRef, useState} from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import nodeLogo from './assets/node.svg'
-import { animate, createScope, createSpring, createDraggable } from 'animejs';
+import {animate, createScope} from 'animejs'
 import './board.css'
 import './App.css'
 
@@ -23,8 +23,28 @@ export default function App(){
     )
 }
 function ReactCredit() {
-    return (
-        <div className="credit">
+    const root = useRef(null);
+    const scope = useRef(null);
+    useEffect(() => {
+        scope.current = createScope({ root }).add(() => {
+            const logos = root.current.querySelectorAll('.logo');
+
+            logos.forEach((logo) => {
+                logo.addEventListener('mouseenter', () => {
+                    animate(logo, {
+                        scale: [
+                            { to: 1.25, ease: 'inOut(3)', duration: 200 },
+                            { to: 1, ease: 'outOut(3)', duration: 200 },
+                        ],
+                    });
+                });
+            });
+        });
+
+        return () => scope.current.revert();
+    }, []);
+        return (
+        <div className="credit" ref={root}>
             <h3>Made with</h3>
             <a href="https://react.dev/" target="_blank" rel="noopener noreferrer">
                 <img src={reactLogo} alt="React Logo" className="logo"/>

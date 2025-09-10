@@ -28,6 +28,10 @@
     font-weight: bold;
     text-align: center;
 }
+.arrow-button:hover {
+    border-width: 8px;
+    color: black;
+}
 .square-button:hover {
     border-width: 8px;
     color: black;
