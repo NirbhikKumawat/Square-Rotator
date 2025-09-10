@@ -2,16 +2,14 @@ import {useEffect,useRef, useState} from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import nodeLogo from './assets/node.svg'
-import {animate, createScope} from 'animejs'
+import {animate, createScope,text,stagger} from 'animejs'
 import './board.css'
 import './App.css'
 
 export default function App(){
     return (
         <div className="app-container">
-            <div className="app-header">
-                <h1>Square Rotator 3X3 </h1>
-            </div>
+            <Header />
                 <main className="game-container">
                     <ImmutableSquareButtonsGrid/>
                 </main>
@@ -21,6 +19,11 @@ export default function App(){
             </footer>
         </div>
     )
+}
+function Header(){
+    return (<div className="app-header">
+        <h1>Square Rotator 3X3 </h1>
+    </div>)
 }
 function ReactCredit() {
     const root = useRef(null);
