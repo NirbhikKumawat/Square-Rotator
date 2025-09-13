@@ -6,6 +6,7 @@ import {animate, createScope,text,stagger} from 'animejs'
 import './board.css'
 import './App.css'
 
+
 export default function App(){
     return (
         <div className="app-container">
