@@ -2,7 +2,7 @@ import {useEffect,useRef, useState} from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import nodeLogo from './assets/node.svg'
-import {animate, createScope,text,stagger} from 'animejs'
+import {animate, createScope, text as textUtil, stagger, createTimeline} from 'animejs'
 import './board.css'
 import './App.css'
 
@@ -22,8 +22,38 @@ export default function App(){
     )
 }
 function Header(){
+    const headingRef =useRef(null);
+    useEffect(() => {
+        if (!headingRef.current) return;
+
+        const scope = createScope({ root: headingRef.current });
+
+        scope.add(() => {
+            const { words, chars } = textUtil.split(headingRef.current, {
+                words: { wrap: 'span', class: 'word' },
+                chars: true,
+            });
+
+            createTimeline({
+                defaults: { easing: 'easeInOut(3)', duration: 600 },
+            })
+                .add(words, {
+                    translateY: el => (el.dataset.line % 2 ? '100%' : '-100%'),
+                    opacity: [0, 1],
+                    delay: stagger(100),
+                })
+                .add(chars, {
+                    translateY: el => (el.dataset.line % 2 ? '-100%' : '100%'),
+                    opacity: [0, 1],
+                    delay: stagger(100, { from: 'random' }),
+                })
+                .init();
+        });
+
+        return () => scope.revert();
+    }, []);
     return (<div className="app-header">
-        <h1>Square Rotator 3X3 </h1>
+        <h1 ref={headingRef}>Square Rotator 3X3 </h1>
     </div>)
 }
 function ReactCredit() {
