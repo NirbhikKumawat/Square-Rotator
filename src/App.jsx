@@ -28,26 +28,26 @@ function Header(){
 
         const scope = createScope({ root: headingRef.current });
 
+
         scope.add(() => {
             const { words, chars } = textUtil.split(headingRef.current, {
                 words: { wrap: 'span', class: 'word' },
                 chars: true,
             });
-
-            createTimeline({
-                defaults: { easing: 'easeInOut(3)', duration: 600 },
+            animate(chars,{
+                y:[
+                    {to:'-2.75rem',ease : 'outExpo',duration:600},
+                    {to:0,ease:'outBounce',duration:800,delay:100}
+                ],
+                rotate:{
+                    from:'-1turn',
+                    delay:0
+                },
+                delay:stagger(50),
+                ease: 'inOutCirc',
+                loopDelay:10000,
+                loop:true
             })
-                .add(words, {
-                    translateY: el => (el.dataset.line % 2 ? '100%' : '-100%'),
-                    opacity: [0, 1],
-                    delay: stagger(100),
-                })
-                .add(chars, {
-                    translateY: el => (el.dataset.line % 2 ? '-100%' : '100%'),
-                    opacity: [0, 1],
-                    delay: stagger(100, { from: 'random' }),
-                })
-                .init();
         });
 
         return () => scope.revert();
