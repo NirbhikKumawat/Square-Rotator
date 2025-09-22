@@ -2,7 +2,7 @@ import {useEffect,useRef, useState} from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import nodeLogo from './assets/node.svg'
-import {animate, createScope, text as textUtil, stagger, createTimeline} from 'animejs'
+import {animate, createScope, text as textUtil, stagger, createTimeline, createSpring} from 'animejs'
 import './board.css'
 import './App.css'
 
@@ -285,6 +285,28 @@ function ImmutableSquareButtonsGrid() {
         }
         setGame(1);
     }
+    const arrowRef = useRef(null);
+
+    useEffect(() => {
+        if (!arrowRef.current) return;
+
+        const node = arrowRef.current;
+
+        const handleMouseEnter = () => {
+            animate(node, {
+                scale: [
+                    { to: 1.2, ease: 'inOut(3)', duration: 150 },
+                    { to: 1, ease: createSpring({ stiffness: 300 }) },
+                ],
+            });
+        };
+
+        node.addEventListener('mouseenter', handleMouseEnter);
+
+        return () => {
+            node.removeEventListener('mouseenter', handleMouseEnter);
+        };
+    }, []);
     return (
         <div className="game-board">
             <div className="game-controls">
@@ -302,29 +324,29 @@ function ImmutableSquareButtonsGrid() {
                 </div>
             )}
             <div className="arrows-grid">
-                <ArrowButton clicked={()=>rotateLeftUp(1)} direction="up"/>
+                <ArrowButton  ref={arrowRef} clicked={()=>rotateLeftUp(1)} direction="up"/>
                 <ArrowButton clicked={()=>rotateLeftUp(2)} direction="up"/>
                 <ArrowButton clicked={()=>rotateLeftUp(3)} direction="up"/>
             </div>
             <div className="buttons-grid">
                 <ArrowButton clicked={()=>rotateUpLeft(1)} direction="left"/>
-                <Block value={squares[0]}/>
-                <Block value={squares[1]}/>
-                <Block value={squares[2]}/>
+                <Block id="tr" value={squares[0]}/>
+                <Block id="tm" value={squares[1]}/>
+                <Block id="tl" value={squares[2]}/>
                 <ArrowButton clicked={()=>rotateUpRight(1)} direction="right"/>
             </div>
             <div className="buttons-grid">
                 <ArrowButton clicked={()=>rotateUpLeft(4)} direction="left"/>
-                <Block value={squares[3]}/>
-                <Block value={squares[4]}/>
-                <Block value={squares[5]}/>
+                <Block id="mr" value={squares[3]}/>
+                <Block id="mm" value={squares[4]}/>
+                <Block id="ml" value={squares[5]}/>
                 <ArrowButton clicked={()=>rotateUpRight(4)} direction="right"/>
             </div>
             <div className="buttons-grid">
                 <ArrowButton clicked={()=>rotateUpLeft(7)} direction="left"/>
-                <Block value={squares[6]}/>
-                <Block value={squares[7]}/>
-                <Block value={squares[8]}/>
+                <Block id="dr" value={squares[6]}/>
+                <Block id="dm" value={squares[7]}/>
+                <Block id="dl" value={squares[8]}/>
                 <ArrowButton clicked={()=>rotateUpRight(7)}  direction="right"/>
             </div>
             <div className="arrows-grid">
